@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top" />
+  </head>
+  <body>
+    <? ae = getData() ?>
+    <ul>
+      <? for (let key in ae) { ?>
+      <li>
+        <a href="<?= ae[key]['url'] ?>"><?= ae[key]['name'] ?></a>
+      </li>
+      <? } ?>
+    </ul>
+  </body>
+</html>

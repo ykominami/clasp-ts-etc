@@ -1,0 +1,19 @@
+{
+  "timeZone": "America/New_York",
+  "dependencies": {
+    "libraries": [
+      {
+        "userSymbol": "YKLibb",
+        "version": "0",
+        "libraryId": "1hzyle-Z7aswSGsLA2bfr2wWCCwc3KazD2FtAD19gUgjFc8Zq2FyraHaH",
+        "developmentMode": true
+      }
+    ]
+  },
+  "exceptionLogging": "STACKDRIVER",
+  "runtimeVersion": "V8",
+  "webapp": {
+    "executeAs": "USER_ACCESSING",
+    "access": "ANYONE"
+  }
+}
