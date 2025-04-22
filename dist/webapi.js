@@ -23,17 +23,7 @@ function doPost(e) {
   const postData = e.parameter;
   return execCmd(postData);
 }
-function testa(){
-  const kind = "docs"
-  const rettype = "showUrl"
-  // const folderId = ENV.oneDaysFolderId
-  // const fileName = null
-  const pathArray = getPathArrayUnder1DAYFolderWithToday()
-  folderId = YKLibb.getFolderByPath(pathArray).getId()
 
-  const fileName = getCurrentDateTimeJST("filename")
-  getOrCreateGoogleAppsFileUnderFolderAndRetX(kind, rettype, folderId, fileName)
-}
 function getOrCreateGoogleAppsFileUnderFolderAndRetX(kind, rettype, folderId, fileName){
   if( !folderId ){
     folderId = ENV.oneDaysFolderId
@@ -43,6 +33,106 @@ function getOrCreateGoogleAppsFileUnderFolderAndRetX(kind, rettype, folderId, fi
   }
   return YKLibb.getOrCreateGoogleAppsFileUnderFolderAndRet(kind, rettype, folderId, fileName);
 }
+
+const commandHandlers = {
+  'new_gss': (paramx, rettype) => {
+    try {
+      const folderId = paramx.folderId;
+      let fileName = paramx.fileName;
+      const kind = "gss";
+      if (!fileName) {
+        fileName = getCurrentDateTimeJST("filename");
+      }
+      return getOrCreateGoogleAppsFileUnderFolderAndRetX(kind, rettype, folderId, fileName);
+    } catch (error) {
+      const mes = [`fileName=${fileName}|`, error.message, error.name, ...error.stack].join("");
+      return HtmlService.createHtmlOutput("<b>1 エラー: " + mes + "</b>");
+    }
+  },
+  'new_docs': (paramx, rettype) => {
+    try {
+      let folderId = paramx.folderId;
+      const fileName = paramx.fileName;
+      if (!folderId) {
+        const pathArray = getPathArrayUnder1DAYFolderWithToday();
+        folderId = YKLibb.getFolderByPath(pathArray).getId();
+      }
+      if (!fileName) {
+        fileName = getCurrentDateTimeJST("filename");
+      }
+      const kind = "docs";
+      return getOrCreateGoogleAppsFileUnderFolderAndRetX(kind, rettype, folderId, fileName);
+    } catch (error) {
+      return HtmlService.createHtmlOutput("<b>2 エラー: " + error.toString() + "</b>");
+    }
+  },
+  'new_docs_date': (paramx, rettype) => {
+    try {
+      let folderId = paramx.folderId;
+      if (!folderId) {
+        folderId = ENV.dailyLogFolderId;
+      }
+      const fileName = paramx.fileName;
+      if (!fileName) {
+        fileName = getCurrentDateJST("filename");
+      }
+      const kind = "docs";
+      return YKLibb.getOrCreateGoogleAppsFileUnderFolderAndRetX(kind, rettype, folderId, fileName);
+    } catch (error) {
+      return HtmlService.createHtmlOutput("<b>エラー 3: " + error.toString() + "</b>");
+    }
+  },
+  'new_chomemo': (paramx, rettype) => {
+    try {
+      const folderId = ENV.chomemoFolderId;
+      Logger.log(`folderId=${folderId}`);
+      const fileName = paramx.fileName;
+      const kind = "docs";
+      if (!fileName) {
+        return YKLibb.getOrCreateGoogleAppsFileUnderFolderAndRet(kind, rettype, folderId);
+      } else {
+        return YKLibb.getOrCreateGoogleAppsFileUnderFolderAndRet(kind, rettype, folderId, fileName);
+      }
+    } catch (error) {
+      Logger.log(`error 1 ${error.toString()}`);
+      Logger.log('エラー発生場所: ' + error.stack);
+      return HtmlService.createHtmlOutput("<b>エラー 4: " + error.toString() + "</b>");
+    }
+  },
+  'current_date': (paramx, rettype) => { // 引数を追加
+    const now = new Date();
+    const response = {
+      "datetime": now.toISOString()
+    };
+    return ContentService.createTextOutput(JSON.stringify(response)).setMimeType(ContentService.MimeType.JSON);
+  },
+  'redirect': (paramx, rettype) => { // 引数を追加
+    const url = ENV.outerHostUrl;
+    return HtmlService.createHtmlOutput(
+      '<html><head><meta http-equiv="refresh" content="0; url=' + url + '"></head><body></body></html>');
+  },
+  'link': (paramx, rettype) => { // 引数を追加
+    const url = ENV.outerHostUrl;
+    return HtmlService.createHtmlOutput(
+      `<html><head><base target="_top" /></head><body><a href="${url}">Click here to visit the site</a></body></html>`
+    );
+  },
+  'web_api': (paramx, sheetName) => {
+    allApiSpreadsheetId = ENV.allApiSpreadsheetId;
+    const [header, values, dataRange] = YKLibb.setupSpreadsheet(allApiSpreadsheetId, sheetName);
+    const key = getAPIKey(header, values, sheetName);
+    return ContentService.createTextOutput(JSON.stringify({ "api-key": key })).setMimeType(ContentService.MimeType.JSON);
+  },
+  'web_api_list': (paramx, notUse) => {
+    const allApiSpreadsheetId = ENV.allApiSpreadsheetId;
+    const sheetNameList = YKLibb.getAllWorksheetNames(allApiSpreadsheetId);
+    return ContentService.createTextOutput(JSON.stringify( sheetNameList, null, 2 )).setMimeType(ContentService.MimeType.JSON);
+  },
+  'default': (error) => {
+    return HtmlService.createHtmlOutput("<b>エラー: " + error.toString() + "</b>");
+  }
+};
+
 /**
  * execCmd - 引数に含まれるcmdに対応した処理をする('new_gss': POSTリクエストを受け取り、スプレッドシートを作成してリダイレクト
  *
@@ -57,6 +147,7 @@ function execCmd(paramx){
   let url;
   let spreadsheetId;
   let sheetName;
+  let secondArg;
   // if (Object.keys(paramx).includes("cmd") ){
   if ("cmd" in paramx ){
     cmd = paramx.cmd;
@@ -64,112 +155,19 @@ function execCmd(paramx){
   else{
     cmd = "new_gss";
   }
-  const rettype = paramx.rettype;
   switch(cmd){
-    case 'new_gss':
-      try {
-        folderId = paramx.folderId;
-        fileName = paramx.fileName;
-        // スプレッドシートを作成してリダイレクト(パラメータがない場合はデフォルト値が使用される)
-        kind = "gss";
-        return getOrCreateGoogleAppsFileUnderFolderAndRetX(kind, rettype, folderId, fileName);
-      } catch (error) {
-        // エラーメッセージを表示
-        return HtmlService.createHtmlOutput("<b>エラー: " + error.toString() + "</b>");
-      }
-      break;
-    case 'new_docs':
-      try {
-        folderId = paramx.folderId;
-        fileName = paramx.fileName;
-        if( !folderId ){
-          const pathArray = getPathArrayUnder1DAYFolderWithToday()
-          folderId = YKLibb.getFolderByPath(pathArray).getId()
-        }
-        if( !fileName ){
-          ENV.oneDaysFolderName
-          fileName = getCurrentDateTimeJST("filename");
-        }
-        kind = "docs";
-        return getOrCreateGoogleAppsFileUnderFolderAndRetX(kind, rettype, folderId, fileName);
-      } catch (error) {
-        // エラーメッセージを表示
-        return HtmlService.createHtmlOutput("<b>エラー: " + error.toString() + "</b>");
-      }
-      break;
-    case 'new_docs_date':
-      try {
-        folderId = paramx.folderId;
-        if( !folderId ){
-          folderId = ENV.dailyLogFolderId;
-        }
-        fileName = paramx.fileName;
-        if( !fileName ){
-          fileName = getCurrentDateJST("filename");
-        }
-        kind = "docs";
-        return YKLibb.getOrCreateGoogleAppsFileUnderFolderAndRet(kind, rettype, folderId, fileName);
-      } catch (error) {
-        // エラーメッセージを表示
-        return HtmlService.createHtmlOutput("<b>エラー: " + error.toString() + "</b>");
-      }
-      break;
-    case 'new_chomemo':
-      try {
-        // folderId = PropertiesService.getScriptProperties().getProperty('CHOMEMO_FOLDER_ID');
-        folderId = ENV.chomemoFolderId;
-        // chomemoFolderName = PropertiesService.getScriptProperties().getProperty('CHOMEMO_FOLDER_NAME');
-        Logger.log(`folderId=${folderId}`);
-
-        // folderId = "12wN06ImleS9bc43aygwllQe5mVQaW_Xt"; // 0-inbox>0-0>chomemo
-        fileName = paramx.fileName;
-        kind = "docs";
-        if( !fileName ){
-          return YKLibb.getOrCreateGoogleAppsFileUnderFolderAndRet(kind, rettype, folderId);
-        }
-        else{
-          return YKLibb.getOrCreateGoogleAppsFileUnderFolderAndRet(kind, rettype, folderId, fileName);
-        }
-      } catch (error) {
-        Logger.log(`error 1 ${error.toString()}`);
-        Logger.log('エラー発生場所: ' + error.stack);
-        // エラーメッセージを表示
-        return HtmlService.createHtmlOutput("<b>エラー: " + error.toString() + "</b>");
-      }
-      break;
-    case 'current_date':
-      // 現在の日時を取得
-      var now = new Date();
-
-      // JSON 形式でレスポンスを作成
-      var response = {
-        "datetime": now.toISOString() // ISO 8601 形式で日時を返す
-      };
-
-      // レスポンスを返す
-      return ContentService.createTextOutput(JSON.stringify(response)).setMimeType(ContentService.MimeType.JSON);
-
-    case 'redirect':
-      // url = PropertiesService.getScriptProperties().getProperty('OUTER_HOST_URL');
-      url = ENV.outerHostUrl;
-      return HtmlService.createHtmlOutput(
-    '<html><head><meta http-equiv="refresh" content="0; url=' + url + '"></head><body></body></html>');
-
-    case 'link':
-      // url = PropertiesService.getScriptProperties().getProperty('OUTER_HOST_URL');
-      url = ENV.outerHostUrl;
-      // リンクを含むHTMLレスポンスを返す
-      return HtmlService.createHtmlOutput(
-        `<html><head><base target="_top" /></head><body><a href="${url}">Click here to visit the site</a></body></html>`
-      );
-    case 'web_api':
-      allApiSpreadsheetId = ENV.allApiSpreadsheetId;
-      const [header, values, dataRange] = YKLibb.setupSpreadsheet(spreadsheetId, sheetName);
-      const key = getAPIKey(header, values, sheetName);
-      return ContentService.createTextOutput(JSON.stringify({"api-key": key})).setMimeType(ContentService.MimeType.JSON);
-    default:
-      return HtmlService.createHtmlOutput("<b>エラー: " + error.toString() + "</b>");
+    case "web_api":{
+      secondArg = paramx.sheetName;
+    }
+    case "web_api_list":{
+      secondArg = "";
+    }
+    default: {
+      secondArg = paramx.rettype;
+    }
   }
+  const handler = commandHandlers[cmd] || commandHandlers['default'];
+  return handler(paramx, secondArg);
 }
 
 /**

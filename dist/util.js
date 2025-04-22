@@ -98,3 +98,12 @@ function displayCurrentDate() {
   console.log(getCurrentDateJST());
   console.log(getCurrentDateJST("filename"));
 }
+
+
+function showExceptionInfo(e){
+  // Logger.log("エラーが発生しました:");
+  Logger.log("  メッセージ:", e.message);
+  Logger.log("  名前:", e.name);
+  Logger.log("  スタックトレース:", e.stack);
+
+}
