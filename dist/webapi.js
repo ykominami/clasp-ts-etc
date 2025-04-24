@@ -123,6 +123,13 @@ const commandHandlers = {
     const key = getAPIKey(header, values, sheetName);
     return ContentService.createTextOutput(JSON.stringify({ "api-key": key })).setMimeType(ContentService.MimeType.JSON);
   },
+  'web_api_s': (paramx, sheetName) => {
+    allApiSpreadsheetId = ENV.allApiSpreadsheetId;
+    Logger.log(`sheetName=${sheetName}`)
+    const [header, values, dataRange] = YKLibb.setupSpreadsheet(allApiSpreadsheetId, sheetName);
+    const key = getAPIKey(header, values, sheetName);
+    return JSON.stringify({ "api-key": key });
+  },
   'web_api_list': (paramx, notUse) => {
     const allApiSpreadsheetId = ENV.allApiSpreadsheetId;
     const sheetNameList = YKLibb.getAllWorksheetNames(allApiSpreadsheetId);
@@ -132,6 +139,7 @@ const commandHandlers = {
     return HtmlService.createHtmlOutput("<b>エラー: " + error.toString() + "</b>");
   }
 };
+
 
 /**
  * execCmd - 引数に含まれるcmdに対応した処理をする('new_gss': POSTリクエストを受け取り、スプレッドシートを作成してリダイレクト
