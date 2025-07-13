@@ -15,7 +15,13 @@ class Env {
     this.outerHostUrl = PropertiesService.getScriptProperties().getProperty('OUTER_HOST_URL');
     this.readingListId = PropertiesService.getScriptProperties().getProperty('READING_LIST_ID');
     this.defaultFileName = PropertiesService.getScriptProperties().getProperty('DEFAULT_FILENAME');
+    this.pcConfigSpreadsheetId = PropertiesService.getScriptProperties().getProperty('PC_CONFIG_SPREADSHEET_ID');
+    this.planningSpreadsheetId = PropertiesService.getScriptProperties().getProperty('PLANNING_SPREADSHEET_ID');
+
+    this.dailyLog0SpreadsheetId = PropertiesService.getScriptProperties().getProperty('DAILY_LOG0_SPREADSHEET_ID');
+    this.dailyLog0SheetName = PropertiesService.getScriptProperties().getProperty('DAILY_LOG0_SHEET_NAME');
     // this. = PropertiesService.getScriptProperties().getProperty('');
     // this. = PropertiesService.getScriptProperties().getProperty('');
+    // https://docs.google.com/spreadsheets/d/1iHMgQZedJ_bQ_sa54g6uPEHzVeaLn3KseDAttT0iHHk/edit?gid=0#gid=0
   }
 }
