@@ -99,6 +99,9 @@ function getAPIKey(header, values, name) {
   let project;
   let platform;
   switch(name){
+    case "BraveSearch":
+      key = processDataWithFields(header, values, ['plan', 'name', 'API_KEY'])
+      break;
     case "OpenAI":
       key = processDataWithFields(header, values, ['name', 'API_KEY'])
       break;

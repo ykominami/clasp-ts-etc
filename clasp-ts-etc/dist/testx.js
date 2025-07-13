@@ -273,7 +273,7 @@ function testa(){
   const pathArray = getPathArrayUnder1DAYFolderWithToday()
   folderId = YKLibb.getFolderByPath(pathArray).getId()
 
-  const fileName = getCurrentDateTimeJST("filename")
+  const fileName = Util.getCurrentDateTimeJST("filename")
   getOrCreateGoogleAppsFileUnderFolderAndRetX(kind, rettype, folderId, fileName)
 }
 
