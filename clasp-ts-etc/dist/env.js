@@ -15,6 +15,9 @@ class Env {
     this.outerHostUrl = PropertiesService.getScriptProperties().getProperty('OUTER_HOST_URL');
     this.readingListId = PropertiesService.getScriptProperties().getProperty('READING_LIST_ID');
     this.defaultFileName = PropertiesService.getScriptProperties().getProperty('DEFAULT_FILENAME');
+    // https://drive.google.com/drive/folders/1F3I0a8fxzE-h-QogpNVJPYxzFhLqt0EQ
+    this.youtubeScribeFolderId = PropertiesService.getScriptProperties().getProperty('YOUTUBE_SCRIBE_FOLDER_ID');
+
     this.pcConfigSpreadsheetId = PropertiesService.getScriptProperties().getProperty('PC_CONFIG_SPREADSHEET_ID');
     this.planningSpreadsheetId = PropertiesService.getScriptProperties().getProperty('PLANNING_SPREADSHEET_ID');
 
@@ -25,3 +28,4 @@ class Env {
     // https://docs.google.com/spreadsheets/d/1iHMgQZedJ_bQ_sa54g6uPEHzVeaLn3KseDAttT0iHHk/edit?gid=0#gid=0
   }
 }
+const ENV = new Env();

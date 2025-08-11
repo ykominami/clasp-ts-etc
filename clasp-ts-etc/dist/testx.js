@@ -1,268 +1,75 @@
-function xtest0(){
-  const a = null;
-  const sheetName = 'OpenAI';
-  // const ret = commandHandlers['web_api'](a, sheetName);
-  const ret = commandHandlers['web_api_s'](a, sheetName);
-  console.log(ret);
-}
-function xtest1(){
-  const a = null;
-  const sheetName = 'Gemini';
-  // const ret = commandHandlers['web_api'](a, sheetName);
-  const ret = commandHandlers['web_api_s'](a, sheetName);
-  console.log(ret);
-}
-function xtest2(){
-  const a = null;
-  const sheetName = 'Anthropic';
-  // const ret = commandHandlers['web_api'](a, sheetName);
-  const ret = commandHandlers['web_api_s'](a, sheetName);
-  console.log(ret);
-}
-function xtest3(){
-  const a = null;
-  const sheetName = 'cohere';
-  // const ret = commandHandlers['web_api'](a, sheetName);
-  const ret = commandHandlers['web_api_s'](a, sheetName);
-  console.log(ret);
-}
-function xtest4(){
-  const a = null;
-  const sheetName = 'amazon';
-  // const ret = commandHandlers['web_api'](a, sheetName);
-  const ret = commandHandlers['web_api_s'](a, sheetName);
-  console.log(ret);
-}
-function xtest41(){
-  const a = null;
-  const sheetName = 'github';
-  // const ret = commandHandlers['web_api'](a, sheetName);
-  const ret = commandHandlers['web_api_s'](a, sheetName);
-  console.log(ret);
-}
-function xtest5(){
-  const a = null;
-  const sheetName = 'slack';
-  // const ret = commandHandlers['web_api'](a, sheetName);
-  const ret = commandHandlers['web_api_s'](a, sheetName);
-  console.log(ret);
-}
-function xtest6(){
-  const a = null;
-  const sheetName = 'slack-webhook';
-  // const ret = commandHandlers['web_api'](a, sheetName);
-  const ret = commandHandlers['web_api_s'](a, sheetName);
-  console.log(ret);
-}
-function xtest7(){
-  const a = null;
-  const sheetName = 'bitbucket';
-  // const ret = commandHandlers['web_api'](a, sheetName);
-  const ret = commandHandlers['web_api_s'](a, sheetName);
-  console.log(ret);
-}
-function xtest8(){
-  const a = null;
-  const sheetName = 'chocolaty';
-  // const ret = commandHandlers['web_api'](a, sheetName);
-  const ret = commandHandlers['web_api_s'](a, sheetName);
-  console.log(ret);
-}
-function xtest9(){
-  const a = null;
-  const sheetName = 'evernote';
-  // const ret = commandHandlers['web_api'](a, sheetName);
-  const ret = commandHandlers['web_api_s'](a, sheetName);
-  console.log(ret);
-}
-function xtest10(){
-  const a = null;
-  const sheetName = 'evernote-developer';
-  // const ret = commandHandlers['web_api'](a, sheetName);
-  const ret = commandHandlers['web_api_s'](a, sheetName);
-  console.log(ret);
-}
-function xtest11(){
-  const a = null;
-  const sheetName = 'twitter';
-  // const ret = commandHandlers['web_api'](a, sheetName);
-  const ret = commandHandlers['web_api_s'](a, sheetName);
-  console.log(ret);
-}
-function xtest11(){
-  const a = null;
-  const sheetName = 'Facebook';
-  // const ret = commandHandlers['web_api'](a, sheetName);
-  const ret = commandHandlers['web_api_s'](a, sheetName);
-  console.log(ret);
-}
-function xtest12(){
-  const a = null;
-  const sheetName = '';
-  // const ret = commandHandlers['web_api'](a, sheetName);
-  const ret = commandHandlers['web_api_s'](a, sheetName);
-  console.log(ret);
-}
-function xtest13(){
-  const a = null;
-  const sheetName = 'bitly-generic';
-  // const ret = commandHandlers['web_api'](a, sheetName);
-  const ret = commandHandlers['web_api_s'](a, sheetName);
-  console.log(ret);
-}
-function xtest14(){
-  const a = null;
-  const sheetName = 'feedly';
-  // const ret = commandHandlers['web_api'](a, sheetName);
-  const ret = commandHandlers['web_api_s'](a, sheetName);
-  console.log(ret);
-}
-function xtest15(){
-  const a = null;
-  const sheetName = 'diigo';
-  // const ret = commandHandlers['web_api'](a, sheetName);
-  const ret = commandHandlers['web_api_s'](a, sheetName);
-  console.log(ret);
-}
-function xtest16(){
-  const a = null;
-  const sheetName = 'hatena-id';
-  // const ret = commandHandlers['web_api'](a, sheetName);
-  const ret = commandHandlers['web_api_s'](a, sheetName);
-  console.log(ret);
-}
-function xtest17(){
-  const a = null;
-  const sheetName = 'hatena';
-  // const ret = commandHandlers['web_api'](a, sheetName);
-  const ret = commandHandlers['web_api_s'](a, sheetName);
-  console.log(ret);
-}
-function xtest18(){
-  const a = null;
-  const sheetName = 'pocket';
-  // const ret = commandHandlers['web_api'](a, sheetName);
-  const ret = commandHandlers['web_api_s'](a, sheetName);
-  console.log(ret);
-}
-function xtest19(){
-  const a = null;
-  const sheetName = 'rakuten';
-  // const ret = commandHandlers['web_api'](a, sheetName);
-  const ret = commandHandlers['web_api_s'](a, sheetName);
-  console.log(ret);
-}
-function xtest20(){
-  const a = null;
-  const sheetName = 'akismet';
-  // const ret = commandHandlers['web_api'](a, sheetName);
-  const ret = commandHandlers['web_api_s'](a, sheetName);
-  console.log(ret);
-}
-function xtest21(){
-  const a = null;
-  const sheetName = 'yahoo-ykominamijp';
-  // const ret = commandHandlers['web_api'](a, sheetName);
-  const ret = commandHandlers['web_api_s'](a, sheetName);
-  console.log(ret);
-}
-function xtest22(){
-  const a = null;
-  const sheetName = 'LINE';
-  // const ret = commandHandlers['web_api'](a, sheetName);
-  const ret = commandHandlers['web_api_s'](a, sheetName);
-  console.log(ret);
-}
-function xtest23(){
-  const a = null;
-  const sheetName = 'DeepL';
-  // const ret = commandHandlers['web_api'](a, sheetName);
-  const ret = commandHandlers['web_api_s'](a, sheetName);
-  console.log(ret);
-}
-function xtest24(){
-  const a = null;
-  const sheetName = 'VeyraX';
-  // const ret = commandHandlers['web_api'](a, sheetName);
-  const ret = commandHandlers['web_api_s'](a, sheetName);
-  console.log(ret);
-}
-function xtest25(){
-  const a = null;
-  const sheetName = 'Sert';
-  // const ret = commandHandlers['web_api'](a, sheetName);
-  const ret = commandHandlers['web_api_s'](a, sheetName);
-  console.log(ret);
+function xtesta3(){
+  // YKLiblog.Log.initLogDebug()
+  YKLiblog.Log.initLogWarn()
+
+  const fields = ['BraveSearch', 'OpenAI', 'Gemini', 'Anthropic', 'cohere', 'github', 'chocolaty', 'diigo']
+  fields.forEach( field => xtesta31(field) )
 }
 
-function xtest26(){
-  const a = null;
-  const sheetName = 'gitlab';
-  // const ret = commandHandlers['web_api'](a, sheetName);
-  const ret = commandHandlers['web_api_s'](a, sheetName);
-  console.log(ret);
+function xtesta31(field){
+  YKLiblog.Log.debug(`field=${ JSON.stringify(field)}`)
+  let array = null
+
+  const paramx = {name: field}
+  const allApiSpreadsheetId = ENV.allApiSpreadsheetId;
+  const sheetName = paramx.name;
+  const [header, totalValues, totalRange] = YKLibb.Gssx.setupSpreadsheet(allApiSpreadsheetId, sheetName);
+  const webapikey = new Webapikey(ENV);
+  const keyAssocArray = webapikey.getAPIKey(header, totalValues, sheetName);
+  // const filteredkeyAssocArray = keyAssocArray.filter( assoc => assoc["kind"] === kind)
+  // const keys = filteredkeyAssocArray.map( item => item['_api_key'] )
+  YKLiblog.Log.warn(`keyAssocArray.length=${ keyAssocArray.length }`)
+  array = keyAssocArray.map( item => item['_api_key'])
+  YKLiblog.Log.warn(`keyAssocArray=${ JSON.stringify(array)}`)
 }
-function xtest27(){
-  const a = null;
-  const sheetName = 'paypal-classic';
-  // const ret = commandHandlers['web_api'](a, sheetName);
-  const ret = commandHandlers['web_api_s'](a, sheetName);
-  console.log(ret);
+
+function xtesta2(){
+  // YKLiblog.Log.initLogWarn()
+  YKLiblog.Log.initLogDebug()
+  const paramx = {name: "OpenAI"}
+  const kind = "CursorCursor"
+  const allApiSpreadsheetId = ENV.allApiSpreadsheetId;
+  const sheetName = paramx.name;
+  // const [header, totalValues, totalRange]
+  const [header, totalValues, totalRange] = YKLibb.Gssx.setupSpreadsheet(allApiSpreadsheetId, sheetName);
+  const webapikey = new Webapikey(ENV);
+  const keyAssocArray = webapikey.getAPIKey(header, totalValues, sheetName);
+  const filteredkeyAssocArray = keyAssocArray.filter( assoc => assoc["kind"] === kind)
+  // const keys = keyAssocArray.map( item => item['_api_key'] )
+  const keys = filteredkeyAssocArray.map( item => item['_api_key'] )
+  // return ContentService.createTextOutput(JSON.stringify({ "api-key": key })).setMimeType(ContentService.MimeType.JSON);
+  YKLiblog.Log.debug(`keys=${ JSON.stringify(keys)}`)
 }
-/*
-function xtest130(){
-  const a = null;
-  const sheetName = '';
-  // const ret = commandHandlers['web_api'](a, sheetName);
-  const ret = commandHandlers['web_api_s'](a, sheetName);
-  console.log(ret);
-}
-function xtest130(){
-  const a = null;
-  const sheetName = '';
-  // const ret = commandHandlers['web_api'](a, sheetName);
-  const ret = commandHandlers['web_api_s'](a, sheetName);
-  console.log(ret);
-}
-function xtest130(){
-  const a = null;
-  const sheetName = '';
-  // const ret = commandHandlers['web_api'](a, sheetName);
-  const ret = commandHandlers['web_api_s'](a, sheetName);
-  console.log(ret);
-}
-function xtest130(){
-  const a = null;
-  const sheetName = '';
-  // const ret = commandHandlers['web_api'](a, sheetName);
-  const ret = commandHandlers['web_api_s'](a, sheetName);
-  console.log(ret);
-}
-*/
-function testx(){
-  const paramx = {
-    "cmd": "new_chomemo",
-    "fileName": null
+
+function xtesta(){
+  // YKLiblog.Log.initLogWarn()
+  YKLiblog.Log.initLogDebug()
+  const kind = "CursorCursor"
+  let cursorCursor = null
+  const paramx = { name: "OpenAI"}
+  const rettype = null
+  // web_api(paramx, rettype)
+
+  const ret = YKLibb.Ga.disp()
+  const allApiSpreadsheetId = ENV.allApiSpreadsheetId;
+  const sheetName = paramx.name;
+
+  const [header, dataValues, totalRange] = YKLibb.Gssx.setupSpreadsheet(allApiSpreadsheetId, sheetName);
+  const webapikey = new Webapikey(ENV);
+  const keyAssocArray = webapikey.getAPIKey(header, dataValues, sheetName);
+  const filteredkeyAssocArray = keyAssocArray.filter( assoc => assoc["kind"] === kind)
+  if( filteredkeyAssocArray.length > 0 ){
+    cursorCursor = filteredkeyAssocArray[0]
   }
-  execCmd(paramx); 
+
+  YKLiblog.Log.debug(`ret=${ret}`)
+  YKLiblog.Log.debug(`cursorCursor=${ JSON.stringify(cursorCursor['API_KEY'])}`)
 }
 
-function testx2(){
-  const paramx = {
-    "cmd": "new_chomemo",
-    "fileName": ""
-  }
-  execCmd(paramx); 
-}
-
-function t(){
-  const spreadsheetId = PropertiesService.getScriptProperties().getProperty("ALL_API_SPREADSHEET_ID");
-  // const sheetName = aramx.name;
-  const sheetName = "OpenAI";
-  const [header, values, dataRange] = YKLibb.setupSpreadsheet(spreadsheetId, sheetName);
-
-  console.log(`header=${header}`);
-  console.log(`values=${values}`);
+function moveYouTubeSpreadsheetsEndYoutube(){
+  YKLiblog.Log.initLogDebug()
+  YKLiblog.Log.debug(`ENV=${ENV.constructor}`)
+  Util.moveYouTubeSpreadsheetsEndYoutube()
 }
 
 function testa(){
@@ -270,38 +77,29 @@ function testa(){
   const rettype = "showUrl"
   // const folderId = ENV.oneDaysFolderId
   // const fileName = null
-  const pathArray = getPathArrayUnder1DAYFolderWithToday()
+  const webapi = new Webapi(ENV)
+  const pathArray = webapi.getPathArrayUnder1DAYFolderWithToday()
   folderId = YKLibb.getFolderByPath(pathArray).getId()
 
   const fileName = Util.getCurrentDateTimeJST("filename")
-  getOrCreateGoogleAppsFileUnderFolderAndRetX(kind, rettype, folderId, fileName)
+  webapi.getOrCreateGoogleAppsFileUnderFolderAndRetX(kind, rettype, folderId, fileName)
 }
 
 // 使用例
 function displayAllEmptyFiles() {
-  var emptyFileIds = YKLibb.getEmptyDocsFileIds();
+  var emptyFileIds = YKLibb.Gapps.getEmptyDocsFileIds();
   Logger.log(emptyFileIds);
 }
 
-// 使用例
-function displayAllEmptyFileUnderComputers() {
-  var computersFolderFileIds = getComputersFolderFileIds();
-  Logger.log(computersFolderFileIds);
-}
-
-function displayFolderUnderComputersFolder(){
-  folderIds　= YKLibb.getComputersFolderIds()
-  Logger.log(`folderIds=${folderIds}`)
-}
 // 実行例：ログにフォルダIDを表示
 function testGetFolderIds() {
-  var ids = YKLibb.getFolderIdsUnderComputers()
+  var ids = YKLibb.Gapps.getFolderIdsUnderComputers()
 
   Logger.log(ids);
 }
 // 実行例：ログにフォルダIDを表示
 function testGetFolderIdsx() {
-  const ids = YKLibb.getFolderIdsUnderComputersx()
+  const ids = YKLibb.Gapps.getFolderIdsUnderComputersx()
   Logger.log(ids);
   const folderNames = ids.map( idArray => {
     Logger.log(idArray[0])
