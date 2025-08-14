@@ -142,4 +142,49 @@ class Util {
   
     return result; // 連想配列の配列を返します。
   }
+
+  static moveYouTubeSpreadsheets(name) {
+    // 移動先のフォルダIDを指定してください
+    const destinationFolderId = ENV.youtubeScribeFolderId; // ★ここに移動先のフォルダIDを入力
+
+    const destinationFolder = DriveApp.getFolderById(destinationFolderId);
+    const rootFolder = DriveApp.getRootFolder();
+    const files = rootFolder.getFiles();
+
+    while (files.hasNext()) {
+      const file = files.next();
+      if (file.getMimeType() === "application/vnd.google-apps.spreadsheet" && file.getName().endsWith(name)) {
+        file.moveTo(destinationFolder);
+        console.log(`Moved: ${file.getName()}`);
+      }
+    }
+  }
+
+  static moveYouTubeSpreadsheetsEndYoutube() {
+    Util.moveYouTubeSpreadsheets(" - YouTube")
+  }
+
+  static moveJsonFiles() {
+    // 移動先のフォルダIDを指定
+    const destinationFolderId = "YOUR_DESTINATION_FOLDER_ID";
+
+    // ルートディレクトリにあるファイルを取得
+    const rootFiles = DriveApp.getRootFolder().getFiles();
+
+    // 移動先のフォルダを取得
+    const destinationFolder = DriveApp.getFolderById(destinationFolderId);
+
+    // ファイルをループ処理
+    while (rootFiles.hasNext()) {
+      const file = rootFiles.next();
+
+      // ファイルがGoogleドキュメントで、ファイル名の末尾が「.json」の場合
+      if (file.getMimeType() === MimeType.GOOGLE_DOCS && file.getName().endsWith(".json")) {
+        // ファイルを移動
+        file.moveTo(destinationFolder);
+        Logger.log(`Moved file: ${file.getName()}`);
+      }
+    }
+  }
 }
+
