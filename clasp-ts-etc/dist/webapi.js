@@ -17,7 +17,7 @@ class Webapi {
     this.env = env;
     this.webapikey = new Webapikey(env);
 	  // コマンドハンドラーの定義
-	this.commandHandlers = {
+	  this.commandHandlers = {
 	    'pc_config': (paramx, notUse) => { // 引数を追加
 	      return this.pc_config(paramx, notUse);
 	    },
