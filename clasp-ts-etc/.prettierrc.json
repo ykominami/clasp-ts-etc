@@ -1,0 +1,6 @@
+{
+  "semi": true, // 文の最後にセミコロンを付ける (true) or 付けない (false)
+  "singleQuote": true, // 文字列をシングルクォート(')に統一する
+  "tabWidth": 2, // インデントのスペースの数
+  "trailingComma": "es5" // オブジェクトや配列の最後の要素にもカンマを付ける
+}
