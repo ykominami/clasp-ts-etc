@@ -1,12 +1,17 @@
+function getData(){
+  const array = []
+  return array
+}
+
 //
 function doGet(e){
   const webapi = new Webapi(ENV);
-  webapi.doGet(e);
+  return webapi.doGet(e);
 }
 
 function doPost(e){
   const webapi = new Webapi(ENV);
-  webapi.doPost(e);
+  return webapi.doPost(e);
 }
 
 /**
@@ -15,66 +20,90 @@ function doPost(e){
 class Webapi {
   constructor(env){
     this.env = env;
-    this.webapikey = new Webapikey(env);
+    this.webapikey = new Webapikey();
 	  // コマンドハンドラーの定義
 	  this.commandHandlers = {
-	    'pc_config': (paramx, notUse) => { // 引数を追加
-	      return this.pc_config(paramx, notUse);
+      'task': (_paramx, _notUse) => {
+	      try {
+  	      return this.taskAndContentService();
+	      } catch (error) {
+	        const mes = [ error.message, error.name, ...error.stack].join("");
+	        return HtmlService.createHtmlOutput("<b>-2 エラー: " + mes + "</b>");
+	      }
+      },
+      'planning': (_paramx, _notUse) => {
+	      try {
+  	        return this.planningAndContentService();
+	      } catch (error) {
+	        const mes = [ error.message, error.name, ...error.stack].join("");
+	        return HtmlService.createHtmlOutput("<b>-1 エラー: " + mes + "</b>");
+	      }
+      },
+	    'pc_config': (_paramx, _notUse) => { // 引数を追加
+	      try {
+            return this.pcConfigAndContentService();
+	      } catch (error) {
+	        const mes = [ error.message, error.name, ...error.stack].join("");
+	        return HtmlService.createHtmlOutput("<b>0 エラー: " + mes + "</b>");
+	      }
 	    },
-	    'new_gss': (paramx, notUse) => {
+	    'new_gss': (paramx, _notUse) => {
 	      try {
 	        return this.new_gss(paramx, paramx.rettype);
 	      } catch (error) {
-	        const mes = [`fileName=${fileName}|`, error.message, error.name, ...error.stack].join("");
+	        const mes = [`paramx.name=${paramx.name}|`, error.message, error.name, ...error.stack].join("");
 	        return HtmlService.createHtmlOutput("<b>1 エラー: " + mes + "</b>");
 	      }
 	    },
-	    'new_docs': (paramx, notUse) => {
+	    'new_docs': (paramx, _notUse) => {
 	      try {
 	        return this.new_docs(paramx, paramx.rettype);
 	      } catch (error) {
 	        return HtmlService.createHtmlOutput("<b>2 エラー: " + error.toString() + "</b>" + JSON.stringify(error.stack) );
 	      }
 	    },
-	    'new_docs_date': (paramx, notUse) => {
+	    'new_docs_date': (paramx, _notUse) => {
 	      try {
 	        return this.new_docs_date(paramx, paramx.rettype);
 	      } catch (error) {
-	        return HtmlService.createHtmlOutput("<b>エラー 3: " + error.toString() + "</b>");
+	        return HtmlService.createHtmlOutput("<b>3 エラー: " + error.toString() + "</b>");
 	      }
 	    },
-	    'new_chomemo': (paramx, notUse) => {
+	    'new_chomemo': (paramx, _notUse) => {
 	      try {
-	        return this.new_chomeme(paramx, paramx.rettype);
+	        return this.new_chomemo(paramx, paramx.rettype);
 	      } catch (error) {
 	        Logger.log(`error 1 ${error.toString()}`);
 	        Logger.log('エラー発生場所: ' + error.stack);
-	        return HtmlService.createHtmlOutput("<b>エラー 4: " + error.toString() + "</b>");
+	        return HtmlService.createHtmlOutput("<b>4 エラー: " + error.toString() + "</b>");
 	      }
 	    },
-	    'current_date': (paramx, notUse) => { // 引数を追加
-	     return this.current_date(paramx, paramx.rettype);
+	    'current_date': (_paramx, _notUse) => { // 引数を追加
+	     return this.currentDateAndContentServices();
 	    },
-	    'redirect': (paramx, notUse) => { // 引数を追加
-	      return this.redirect(paramx, paramx.rettype);
+	    'redirect': (_paramx, _notUse) => { // 引数を追加
+	      return this.redirectAndHtmlService();
 	    },
-	    'link': (paramx, notUse) => { // 引数を追加
-	      return this.link(paramx, paramx.rettype);
+	    'link': (_paramx, _notUse) => { // 引数を追加
+	      return this.linkAndHtmlService();
 	    },
-	    'web_api': (paramx, sheetName) => {
-	      return this.web_api(paramx, sheetName);
+	    'web_api': (paramx, _sheetName) => {
+	      return this.webApiAndContentService(paramx);
 	    },
-	    'web_api_2': (paramx, sheetName) => {
-	      return this.web_api_2(paramx, sheetName);
+	    'web_api_2': (paramx, _sheetName) => {
+	      return this.webApi2AndContentService(paramx);
 	    },
-	    'web_api_s': (paramx, sheetName) => {
-	      return this.web_api_s(paramx, sheetName);
+	    'web_api_s': (paramx, _sheetName) => {
+	      return this.webApiSAndContentService(paramx);
 	    },
-	    'web_api_list': (paramx, notUse) => {
-	      return this.web_api_list(paramx, notUse);
+	    'web_api_list': (_paramx, _notUse) => {
+	      return this.webApiListAndContentService();
 	    },
 	    'default': (error) => {
-	      return HtmlService.createHtmlOutput("<b>Error: " + error.toString() + "</b>");
+	      return HtmlService.createHtmlOutput("<b>default Error: " + error.toString() + "</b>");
+	    },
+	    '_error': (error) => {
+	      return HtmlService.createHtmlOutput("error Error: " + error.toString() + "</b>");
 	    }
 	  };
 
@@ -86,7 +115,6 @@ class Webapi {
    * @return {HtmlOutput} 新しく作成されたスプレッドシートへのリダイレクト
    */
   doGet(e) {
-    // return pc_config(e.parameter, rettye);
     return this.execCmd(e.parameter);
   }
 
@@ -97,9 +125,25 @@ class Webapi {
    * @return {HtmlOutput} 新しく作成されたスプレッドシートへのリダイレクト
    */
   doPost(e) {
+    let postData
+    if( Object.keys(e.parameter).length > 0 ){
+      postData = e.parameter
+    }
+    else{
+      const jsonString = e.postData.contents;
+      postData = JSON.parse(jsonString);
+    }
+
+    // --- ⑧ レスポンスの返却 ---
+    // ContentServiceを使ってJSON形式のレスポンスを返します。
+    // const keys = Object.keys(postData)
+    // const data = postData
+    // const data = keys
+    // return ContentService.createTextOutput(JSON.stringify(data)).setMimeType(ContentService.MimeType.JSON);
+
     // POSTデータからフォルダIDとファイル名を取得 (JSON形式を想定)
     // const postData = JSON.parse(e.postData.contents);
-    const postData = e.parameter;
+    // const postData = e.parameter;
     return this.execCmd(postData);
   }
 
@@ -137,7 +181,11 @@ class Webapi {
         secondArg = paramx.rettype;
       }
     }
-    const handler = this.commandHandlers[cmd] || this.commandHandlers['default'];
+    let handler = this.commandHandlers[cmd]
+    if( !handler ){
+      handler = this.commandHandlers['_error']
+    }
+    // const handler =  || this.commandHandlers['_error'];
     return handler(paramx, secondArg);
   }
 
@@ -156,7 +204,7 @@ class Webapi {
     let fileName = paramx.fileName;
     const kind = "gss";
     if (!fileName) {
-      fileName = Util.getCurrentDateTimeJST("filename");
+      fileName = YKLibb.Util.getCurrentDateTimeJST("filename");
     }
     return this.getOrCreateGoogleAppsFileUnderFolderAndRetX(kind, rettype, folderId, fileName);
   }
@@ -169,7 +217,7 @@ class Webapi {
       folderId = YKLibb.Gapps.getFolderByPath(pathArray).getId();
     }
     if (!fileName) {
-      fileName = Util.getCurrentDateTimeJST("filename");
+      fileName = YKLibb.Util.getCurrentDateTimeJST("filename");
     }
     const kind = "docs";
     return this.getOrCreateGoogleAppsFileUnderFolderAndRetX(kind, rettype, folderId, fileName);
@@ -182,13 +230,13 @@ class Webapi {
     }
     let fileName = paramx.fileName;
     if (!fileName) {
-      fileName = Util.getCurrentDateJST("filename");
+      fileName = YKLibb.Util.getCurrentDateJST("filename");
     }
     const kind = "docs";
     return this.getOrCreateGoogleAppsFileUnderFolderAndRetX(kind, rettype, folderId, fileName);
   }
 
-  new_chomeme(paramx, rettype){
+  new_chomemo(paramx, rettype){
     const folderId = ENV.chomemoFolderId;
     Logger.log(`folderId=${folderId}`);
     const fileName = paramx.fileName;
@@ -199,81 +247,143 @@ class Webapi {
       return YKLibb.Gapps.getOrCreateGoogleAppsFileUnderFolderAndRet(kind, rettype, folderId, fileName);
     }
   }
-
-  link(paramx, rettype){
-    const url = ENV.outerHostUrl;
+  
+  linkAndHtmlService(){
+    const url = this.link()
     return HtmlService.createHtmlOutput(
       `<html><head><base target="_top" /></head><body><a href="${url}">Click here to visit the site</a></body></html>`
     );
   }
 
-  current_date(paramx, rettype){
+  link(){
+    const url = ENV.outerHostUrl;
+    return url
+  }
+
+  currentDateAndContentServices(){
+    const response = this.currentDate()
+    return ContentService.createTextOutput(JSON.stringify(response)).setMimeType(ContentService.MimeType.JSON);
+  }
+
+  currentDate(){
     const now = new Date();
     const response = {
       "datetime": now.toISOString()
     };
-    return ContentService.createTextOutput(JSON.stringify(response)).setMimeType(ContentService.MimeType.JSON);
+    return response;
   }
 
-  redirect(paramx, rettype){
-    const url = ENV.outerHostUrl;
+  redirectAndHtmlService(){
+    const url = this.redirect()
     return HtmlService.createHtmlOutput(
         '<html><head><meta http-equiv="refresh" content="0; url=' + url + '"></head><body></body></html>');
   }
 
-  web_api_sub(paramx, rettype){
-    const allApiSpreadsheetId = ENV.allApiSpreadsheetId;
-    const sheetName = paramx.name;
-    // const [header, totalValues, totalRange]
-    const [header, dataValues, totalRange] = YKLibb.Gssx.setupSpreadsheet(allApiSpreadsheetId, sheetName);
-    return [header, dataValues, totalRange, sheetName]
+  redirect(){
+    const url = ENV.outerHostUrl;
+    return url;
   }
 
-  web_api(paramx, rettype, additional = ""){
-    const [header, dataValues, totalRange, sheetName] =  this.web_api_sub(paramx, rettype)
+  webApiSub(paramx){
+    const allApiSpreadsheetId = ENV.allApiSpreadsheetId;
+    const sheetName = paramx.name;
+    const table = YKLibb.SimpleTable.createById(allApiSpreadsheetId, sheetName);
+    const [worksheet, totalRange, headerRange, dataRowsRange, nextDataRowsRange, header, totalValues] = table.getRangesAndHeaderAndTotalValues()
+    let dataRowsValues = [[]]
+    if( dataRowsRange === null ){
+      dataRowsValues = dataRowsRange.getValues()
+    }
+    return [header, dataRowsValues, totalRange, sheetName]
+  }
 
-    const keyAssocArray = this.webapikey.getAPIKey(header, dataValues, sheetName);
-    const str = JSON.stringify({ "additional": additional, "api-key": keyAssocArray })
+  webApiAndContentService(paramx, additional = ""){
+    const str = this.webApi(paramx, additional)
     return ContentService.createTextOutput(str).setMimeType(ContentService.MimeType.JSON);
   }
 
-  web_api_2(paramx, rettype, additional = ""){
-    const [header, dataValues, totalRange, sheetName] =  this.web_api_sub(paramx, rettype)
+  webApi(paramx, additional = ""){
+    const [header, dataValues, totalRange, sheetName] =  this.webApiSub(paramx)
     const keyAssocArray = this.webapikey.getAPIKey(header, dataValues, sheetName);
-    const str = JSON.stringify({ "weg_api_s":"web_api_2", "api-key": keyAssocArray })
+    const str = JSON.stringify({ "additional": additional, "api-key": keyAssocArray })
+    
     return ContentService.createTextOutput( str ).setMimeType(ContentService.MimeType.JSON);
   }
 
-  web_api_s(paramx, rettype){
-    const [header, dataValues, totalRange, sheetName] = this.web_api_sub(paramx, rettype)
+  webApi2AndContentService(paramx){
+    const str = this.webApi2(paramx)
+    return ContentService.createTextOutput( str ).setMimeType(ContentService.MimeType.JSON);
+  }
+
+  webApi2(paramx){
+    const [header, dataValues, totalRange, sheetName] =  this.webApiSub(paramx)
+    const keyAssocArray = this.webapikey.getAPIKey(header, dataValues, sheetName);
+    const str = JSON.stringify({ "weg_api_2":"web_api_2", "api-key": keyAssocArray })
+    return str
+  }
+
+  webApiSAndContentService(paramx){
+    const str = this.webAppS(paramx)
+    return ContentService.createTextOutput( str ).setMimeType(ContentService.MimeType.JSON);    
+  }
+  webApiS(paramx){
+    const [header, dataValues, totalRange, sheetName] = this.webApiSub(paramx)
     const keyAssocArray = this.webapikey.getAPIKey(header, dataValues, sheetName);
     const str = JSON.stringify({ "weg_api_s":"web_api_s", "api-key": keyAssocArray })
-    return ContentService.createTextOutput( str ).setMimeType(ContentService.MimeType.JSON);
+    return str
   }
 
-  web_api_list(paramx, rettype){
+  webApiListAndContentService(){
+    const sheetNameList = this.webAppList()
+    return ContentService.createTextOutput(JSON.stringify( sheetNameList, null, 2 )).setMimeType(ContentService.MimeType.JSON);
+  }
+
+  webApiList(){
     const allApiSpreadsheetId = ENV.allApiSpreadsheetId;
     const sheetNameList = YKLibb.Gssx.getAllWorksheetNames(allApiSpreadsheetId);
-    return ContentService.createTextOutput(JSON.stringify( sheetNameList, null, 2 )).setMimeType(ContentService.MimeType.JSON);
+    return sheetNameList
   }
 
-  pc_config(paramx, rettype){
+  pcConfigAndContentService(){
+    const array = this.pcConfig()
+    return ContentService.createTextOutput(JSON.stringify( array, null, 2 )).setMimeType(ContentService.MimeType.JSON);
+  }
+
+  pcConfig(){
+    const way = YKLibb.Config.NONE()
+    const sourceHeader = [""]
+    const yklibbConfig = new YKLibb.Config(sourceHeader.length, sourceHeader, way)
+
     const pcConfigSpreadsheetId = ENV.pcConfigSpreadsheetId;
     const sheetNameList = YKLibb.Gssx.getAllWorksheetNames(pcConfigSpreadsheetId);
-    return ContentService.createTextOutput(JSON.stringify( sheetNameList, null, 2 )).setMimeType(ContentService.MimeType.JSON);
+    Logger.log(`1 sheetNameList=${JSON.stringify(sheetNameList)}`)
+    let array = []
+    sheetNameList.map( sheetName => {
+        const table = YKLibb.SimpleTable.createById(pcConfigSpreadsheetId, sheetName)
+        array = [...array, table.getDataRowsValues()]
+    })
+    return array
   }
-
+  planningAndContentService(){
+    const objects = this.planning()
+    return ContentService.createTextOutput(JSON.stringify( objects, null, 2 )).setMimeType(ContentService.MimeType.JSON);
+  }
   planning(){
     const planningSpreadsheetId = ENV.planningSpreadsheetId;
-    const sheetName = "Sheet1"
-    const  [spreadsheet, worksheet] = YKLibb.Gssx.setupForSpreadsheet(planningSpreadsheetId, sheetName)
-    const range = YKLibb.Gssx.getMinimalContentRange(worksheet)
-    const values = range.getValues();
-    const objects = Util.createArrayOfObjects(values);
+    const sheetName = ENV.sheet1Name
+    const spreadsheet = SpreadsheetApp.openById(planningSpreadsheetId);
+    const sourceHeader = ENV.planningFields
+    // const way = YKLibb.Config.NONE()
+    const way = YKLibb.Config.COMPLETE()
+    const yklibbConfig = new YKLibb.Config(sourceHeader.length, sourceHeader, way)
 
-     Logger.log(`0 values=${JSON.stringify(values)}`)
-     Logger.log(`====`)
-     Logger.log(`1 objects=${JSON.stringify(objects)}`)
+    const table = new YKLibb.SimpleTable(spreadsheet, sheetName, yklibbConfig)
+
+    const objects = table.arrayOfObjects;
+
+    // Logger.log(`0 values=${JSON.stringify(dataValues)}`)
+    // Logger.log(`====`)
+    // Logger.log(`1 objects=${JSON.stringify(objects)}`)
+    return objects
   }
 
   /**
@@ -366,9 +476,16 @@ class Webapi {
   getPathArrayUnder1DAYFolderWithToday(){
     const today = new Date()
     return [ENV.oneDaysFolderName,
-      Util.getDateTimeJST(today, "year"),
-      Util.getDateTimeJST(today, "year_month"),
-      Util.getDateTimeJST(today, "year_month_day")]
+      YKLibb.Util.getDateTimeJST(today, "year"),
+      YKLibb.Util.getDateTimeJST(today, "year_month"),
+      YKLibb.Util.getDateTimeJST(today, "year_month_day")]
   }
-
+  taskAndContentService(){
+    const objects = this.task()
+    return ContentService.createTextOutput(JSON.stringify( objects, null, 2 )).setMimeType(ContentService.MimeType.JSON);
+  }
+  task(){
+    const array = []
+    return array
+  }
 }

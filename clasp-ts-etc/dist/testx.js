@@ -1,6 +1,78 @@
-function xtesta3(){
+function xtest_new_gss(){
+  const paramx = {name: field}
+  const webapi = new Webapi(ENV)
+  this.new_gss(paramx, paramx.rettype)
+}
+function xtestb(){
+  YKLiblog.Log.initLogDebug()
+  // YKLiblog.Log.initLogWarn()
+
+  const ssId = ENV.dailyLog0SpreadsheetId
+  const sheetName = ENV.sheetsSheetName
+  // const way = YKLibb.Config.NONE()
+  const table = YKLibb.SimpleTable.createById(ssId, sheetName)
+  const [worksheet, totalRange, headerRange, dataRowsRange, nextDataRowsRange, header, totalValues] = table.getRangesAndHeaderAndTotalValues()
+  const values = dataRowsRange.getValues()
+}
+
+function xtest0(){
+  YKLiblog.Log.initLogDebug()
+  // YKLiblog.Log.initLogWarn()
+
+  const spreadsheetId = ENV.dailyLog0SpreadsheetId
+  const sheetName = "SHEETS"
+  // const sheetName = "SHEETS1"
+  // const way = YKLibb.Config.PARTIAL()
+
+  const yklibbConfig = YKLibb.Config.makeYKLibbConfig()
+  // const spreadsheet = SpreadsheetApp.openById(spreadsheetId);
+  const table = YKLibb.SimpleTable.createById(spreadsheetId, sheetName)
+
+  const [worksheet, totalRange0, headerRange0, dataRowsRange0, nextDataRowsRange0, header0, totalValues0] = table.getRangesAndHeaderAndTotalValues()
+  const [header, totalValues, headerRange, dataRowsRange, totalRange] = YKLibb.Gssx.getHeaderAndData(totalValues0, totalRange0, yklibbConfig)
+  const dataRowsValues = dataRowsRange.getValues()
+}
+
+function xtestUtilObjectArray(){
+  YKLiblog.Log.initLogDebug()
+  // YKLiblog.Log.initLogWarn()
+
+  const spreadsheetId = ENV.dailyLog0SpreadsheetId
+  // const sheetName = ENV.sheets1SheetName
+  const sheetName = ENV.sheetsSheetName
+  // const way = YKLibb.Config.PARTIAL()
+  const table = YKLibb.SimpleTable.createById(spreadsheetId, sheetName)
+
+  const array = table.find("title", "VPASS-202507支払い分")
+  YKLiblog.Log.debug(JSON.stringify(array))
+  const header = table.getHeader()
+  Logger.log(header)
+  const fileType = ENV.fileTypeGSpreadSheets
+  const title = "JKL"
+  const url = "https://example.com"
+  const assoc = { fileType: fileType, title: title, url: url }
+  const nextDataRowsRange = table.add(header, assoc)
+}
+
+function xtestPlanning(){
   // YKLiblog.Log.initLogDebug()
   YKLiblog.Log.initLogWarn()
+
+  const webapi = new Webapi(ENV);
+  webapi.planning()
+}
+
+function xtestPcConfig(){
+  // YKLiblog.Log.initLogDebug()
+  YKLiblog.Log.initLogWarn()
+
+  const webapi = new Webapi(ENV);
+  webapi.pc_config()
+}
+
+function xtesta3(){
+  YKLiblog.Log.initLogDebug()
+  // YKLiblog.Log.initLogWarn()
 
   const fields = ['BraveSearch', 'OpenAI', 'Gemini', 'Anthropic', 'cohere', 'github', 'chocolaty', 'diigo']
   fields.forEach( field => xtesta31(field) )
@@ -13,11 +85,11 @@ function xtesta31(field){
   const paramx = {name: field}
   const allApiSpreadsheetId = ENV.allApiSpreadsheetId;
   const sheetName = paramx.name;
-  const [header, totalValues, totalRange] = YKLibb.Gssx.setupSpreadsheet(allApiSpreadsheetId, sheetName);
-  const webapikey = new Webapikey(ENV);
+  const table = YKLibb.SimpleTable.createById(allApiSpreadsheetId, sheetName)
+  const [worksheet, totalRange, headerRange, dataRowsRange, nextDataRowsRange0, header, totalValues] = table.getRangesAndHeaderAndTotalValues()
+
+  const webapikey = new Webapikey();
   const keyAssocArray = webapikey.getAPIKey(header, totalValues, sheetName);
-  // const filteredkeyAssocArray = keyAssocArray.filter( assoc => assoc["kind"] === kind)
-  // const keys = filteredkeyAssocArray.map( item => item['_api_key'] )
   YKLiblog.Log.warn(`keyAssocArray.length=${ keyAssocArray.length }`)
   array = keyAssocArray.map( item => item['_api_key'])
   YKLiblog.Log.warn(`keyAssocArray=${ JSON.stringify(array)}`)
@@ -30,9 +102,11 @@ function xtesta2(){
   const kind = "CursorCursor"
   const allApiSpreadsheetId = ENV.allApiSpreadsheetId;
   const sheetName = paramx.name;
-  // const [header, totalValues, totalRange]
-  const [header, totalValues, totalRange] = YKLibb.Gssx.setupSpreadsheet(allApiSpreadsheetId, sheetName);
-  const webapikey = new Webapikey(ENV);
+  const table = YKLibb.SimpleTable.createById(allApiSpreadsheetId, sheetName)
+  const [worksheet, totalRange, headerRange, dataRowsRange, nextDataRowsRange0, header, totalValues] = table.getRangesAndHeaderAndTotalValues()
+
+  // const [header, totalValues, totalRange] = YKLibb.Gssx.setupSpreadsheet(allApiSpreadsheetId, sheetName);
+  const webapikey = new Webapikey();
   const keyAssocArray = webapikey.getAPIKey(header, totalValues, sheetName);
   const filteredkeyAssocArray = keyAssocArray.filter( assoc => assoc["kind"] === kind)
   // const keys = keyAssocArray.map( item => item['_api_key'] )
@@ -54,8 +128,12 @@ function xtesta(){
   const allApiSpreadsheetId = ENV.allApiSpreadsheetId;
   const sheetName = paramx.name;
 
-  const [header, dataValues, totalRange] = YKLibb.Gssx.setupSpreadsheet(allApiSpreadsheetId, sheetName);
-  const webapikey = new Webapikey(ENV);
+  const table = YKLibb.SimpleTable.createById(allApiSpreadsheetId, sheetName)
+  const [worksheet, totalRange, headerRange, dataRowsRange, nextDataRowsRange0, header, totalValues] = table.getRangesAndHeaderAndTotalValues()
+
+  // const [header, dataValues, totalRange] = YKLibb.Gssx.setupSpreadsheet(allApiSpreadsheetId, sheetName);
+  const webapikey = new Webapikey();
+  const dataValues = dataRowsRange.getValues()
   const keyAssocArray = webapikey.getAPIKey(header, dataValues, sheetName);
   const filteredkeyAssocArray = keyAssocArray.filter( assoc => assoc["kind"] === kind)
   if( filteredkeyAssocArray.length > 0 ){
@@ -79,9 +157,9 @@ function testa(){
   // const fileName = null
   const webapi = new Webapi(ENV)
   const pathArray = webapi.getPathArrayUnder1DAYFolderWithToday()
-  folderId = YKLibb.getFolderByPath(pathArray).getId()
+  folderId = YKLibb.Gapps.getFolderByPath(pathArray).getId()
 
-  const fileName = Util.getCurrentDateTimeJST("filename")
+  const fileName = YKLibb.Util.getCurrentDateTimeJST("filename")
   webapi.getOrCreateGoogleAppsFileUnderFolderAndRetX(kind, rettype, folderId, fileName)
 }
 

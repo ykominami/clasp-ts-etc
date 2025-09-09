@@ -1,10 +1,4 @@
 class Webapikey {
-  z() {
-    spreadsheetId = PropertiesService.getScriptProperties().getProperty("ALL_API_SPREADSHEET_ID");
-    let array = this.getAllSheetNames(spreadsheetId);
-    console.log(array);
-  }
-
   /**
    * ヘッダーとデータ配列、およびフィールド名の配列を受け取り、
    * 指定されたすべてのフィールドに値を持つ行のデータを抽出してオブジェクトの配列を返します。
@@ -94,138 +88,136 @@ class Webapikey {
   }
 
   getAPIKey(header, values, name) {
-    let key = null;
-    let keyAasocArray = null
+    let keyArray = [];
+    let keyAasocArray = []
     switch(name){
       case "BraveSearch":
         keyAasocArray = this.processDataWithFields(header, values, ['plan', 'name', 'API_KEY'])
         keyAasocArray.forEach( item => {
           item['_api_key'] = item['API_KEY']
         })
-        key = keyAasocArray
+        keyArray = keyAasocArray
         break;
       case "OpenAI":
         keyAasocArray = this.processDataWithFields(header, values, ['kind', 'API_KEY'])
         keyAasocArray.forEach( item => {
           item['_api_key'] = item['API_KEY']
         })
-        key = keyAasocArray
+        keyArray = keyAasocArray
         break;
       case 'Gemini':
         keyAasocArray = this.processDataWithFields(header, values, ['PROJECT','NAME','API-KEY'])
         keyAasocArray.forEach( item => {
           item['_api_key'] = item['API-KEY']
         })
-        key = keyAasocArray
+        keyArray = keyAasocArray
         break;
       case 'Anthropic':
         keyAasocArray = this.processDataWithFields(header, values, ['NAME', 'API-KEY'])
         keyAasocArray.forEach( item => {
           item['_api_key'] = item['API-KEY']
         })
-        key = keyAasocArray
+        keyArray = keyAasocArray
         break;
       case 'cohere':
         keyAasocArray = this.processDataWithFields(header, values, ['API-KEY'])
         keyAasocArray.forEach( item => {
           item['_api_key'] = item['API-KEY']
         })
-        key = keyAasocArray
+        keyArray = keyAasocArray
         break;
       case 'amazon':
-        key = this.processDataWithFields(header, values, ['ouser',	'Consumerkey',	'Consumersecret'])
+        keyArray = this.processDataWithFields(header, values, ['ouser',	'Consumerkey',	'Consumersecret'])
         break;
       case 'github':
         keyAasocArray = this.processDataWithFields(header, values, ['label','api-key','date'])
         keyAasocArray.forEach( item => {
           item['_api_key'] = item['api-key']
         })
-        key = keyAasocArray
+        keyArray = keyAasocArray
         break;
       case 'slack':
-        key = this.processDataWithFields(header, values, ['kind','name','url'])
+        keyArray = this.processDataWithFields(header, values, ['kind','name','url'])
         break;
       case 'slack-webhook':
-        key = this.processDataWithFields(header, values, ['slack-webhook', 'dynalist'])
+        keyArray = this.processDataWithFields(header, values, ['slack-webhook', 'dynalist'])
         break;
       case 'bitbucket':
-        key = this.processDataWithFields(header, values, ['cosumer',	'secret'])
+        keyArray = this.processDataWithFields(header, values, ['cosumer',	'secret'])
         break;
       case 'chocolaty':
         keyAasocArray = this.processDataWithFields(header, values, ['api-key'])
         keyAasocArray.forEach( item => {
           item['_api_key'] = item['api-key']
         })
-        key = keyAasocArray
+        keyArray = keyAasocArray
         break;
       case 'evernote':
-        key = this.processDataWithFields(header, values, ['provider','activate','service','name','Consumerkey','Consumersecret'])
+        keyArray = this.processDataWithFields(header, values, ['provider','activate','service','name','Consumerkey','Consumersecret'])
         break;
       case 'evernote-developer':
-        key = this.processDataWithFields(header, values, ['valid','name','developer-token','url','End-datetime'])
+        keyArray = this.processDataWithFields(header, values, ['valid','name','developer-token','url','End-datetime'])
         break;
       case 'twitter':
-        key = this.processDataWithFields(header, values, ['service','name','description','Consumerkey','Consumersecret','oauth_token','oauth_token_secret','scope','Request-token-URL','Authorize-URL','Access-token-URL','Callback-URL','website'])
+        keyArray = this.processDataWithFields(header, values, ['service','name','description','Consumerkey','Consumersecret','oauth_token','oauth_token_secret','scope','Request-token-URL','Authorize-URL','Access-token-URL','Callback-URL','website'])
         break;
       case 'Facebook':
-        key = this.processDataWithFields(header, values, ['name','description','App-ID','API-Version','App-Token','User-Token','Consumerkey','	App-Secret','website'])
+        keyArray = this.processDataWithFields(header, values, ['name','description','App-ID','API-Version','App-Token','User-Token','Consumerkey','	App-Secret','website'])
         break;
       case 'bitly-generic':
-        key = this.processDataWithFields(header, values, ['Generic-Access-Token'])
+        keyArray = this.processDataWithFields(header, values, ['Generic-Access-Token'])
         break;
       case 'feedly':
-        key = this.processDataWithFields(header, values, ['user-id','developer-access-token'])
+        keyArray = this.processDataWithFields(header, values, ['user-id','developer-access-token'])
         break;
       case 'diigo':
         keyAasocArray = this.processDataWithFields(header, values, ['AppName', 'Description', 'APIkey'])
         keyAasocArray.forEach( item => {
           item['_api_key'] = item['APIkey']
         })
-        key = keyAasocArray
+        keyArray = keyAasocArray
         break;
       case 'hatena-id':
-        key = this.processDataWithFields(header, values, ['Hatena-ID','API-Key','url'])
+        keyArray = this.processDataWithFields(header, values, ['Hatena-ID','API-Key','url'])
         break;
       case 'hatena':
-        key = this.processDataWithFields(header, values, ['provider','name','Consumerkey','Consumersecret','RequestTokenURL','Authorize-URL','Access-token-URL'])
+        keyArray = this.processDataWithFields(header, values, ['provider','name','Consumerkey','Consumersecret','RequestTokenURL','Authorize-URL','Access-token-URL'])
         break;
       case 'pocket':
-        key = this.processDataWithFields(header, values, ['NAME','PLATFORM','CONSUMER KEY'])
+        keyArray = this.processDataWithFields(header, values, ['NAME','PLATFORM','CONSUMER KEY'])
         break;
       case 'rakuten':
-        key = this.processDataWithFields(header, values, ['applicationId','developerId','application_secret','affiliateId'])
+        keyArray = this.processDataWithFields(header, values, ['applicationId','developerId','application_secret','affiliateId'])
         break;
       case 'akismet':
-        key = this.processDataWithFields(header, values, ['service','APIkey'])
+        keyArray = this.processDataWithFields(header, values, ['service','APIkey'])
         break;
       case 'yahoo-ykominamijp':
-        key = this.processDataWithFields(header, values, ['service','user','name','APIkey'])
+        keyArray = this.processDataWithFields(header, values, ['service','user','name','APIkey'])
         break;
       case 'LINE':
-        key = this.processDataWithFields(header, values, ['name','url','チャンネル','URL','チャンネルID','チャンネルid','チャンネル説明','メールアドレス','プライバシーポリシーURL','サービス利用規約URL','アプリタイプ','権限','チャンネルシークレット','アサーション署名キー','あなたのユーザID'])
+        keyArray = this.processDataWithFields(header, values, ['name','url','チャンネル','URL','チャンネルID','チャンネルid','チャンネル説明','メールアドレス','プライバシーポリシーURL','サービス利用規約URL','アプリタイプ','権限','チャンネルシークレット','アサーション署名キー','あなたのユーザID'])
         break;
       case 'DeepL':
-        key = this.processDataWithFields(header, values, ['お客様の登録番号','サポート','登録取り消し','認証キー','API-DOMAIN','URL'])
+        keyArray = this.processDataWithFields(header, values, ['お客様の登録番号','サポート','登録取り消し','認証キー','API-DOMAIN','URL'])
         break;
       case 'VeyraX':
-        key = this.processDataWithFields(header, values, ['API_KEY'])
+        keyArray = this.processDataWithFields(header, values, ['API_KEY'])
         break;
       case 'Sert':
-        key = this.processDataWithFields(header, values, ['PRIVATE_API_KEY'])
+        keyArray = this.processDataWithFields(header, values, ['PRIVATE_API_KEY'])
         break;
       case 'gitlab':
-        key = this.processDataWithFields(header, values, ['name','pat','expire'])
+        keyArray = this.processDataWithFields(header, values, ['name','pat','expire'])
         break;
       case 'paypal-classic':
-        key = this.processDataWithFields(header, values, ['user','password','signature','APIkey','Consumerkey','Consumersecret','oauth_token','oauth_token_secret','scope','ClientID','Clientsecret','Request-token-URL','Authorize-URL','Access_token_URL','Callback_URL','web_site','api-url','public_key_fingerprints'])
+        keyArray = this.processDataWithFields(header, values, ['user','password','signature','APIkey','Consumerkey','Consumersecret','oauth_token','oauth_token_secret','scope','ClientID','Clientsecret','Request-token-URL','Authorize-URL','Access_token_URL','Callback_URL','web_site','api-url','public_key_fingerprints'])
         break;
-			
-
       case 'Azure':
-        key = "";
+        keyArray = "";
         break;
       case 'Google':
-        key = "";
+        keyArray = "";
         break;
       // case '':
       //  key = "";
@@ -234,7 +226,7 @@ class Webapikey {
       default:
         ;
     }
-    return key;
+    return keyArray;
 
   }
 
