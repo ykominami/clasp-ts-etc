@@ -196,7 +196,7 @@ class Webapi {
     if( !fileName ){
       fileName = this.env.defaultFileName
     }
-    return YKLibb.Gapps.getOrCreateGoogleAppsFileUnderFolderAndRet(kind, rettype, folderId, fileName);
+    return YKLibb.Gapps.getOrCreateGoogleAppsFileUnderFolderAndHtmlService(kind, rettype, folderId, fileName);
   }
 
   new_gss(paramx, rettype){
@@ -288,12 +288,13 @@ class Webapi {
     const allApiSpreadsheetId = ENV.allApiSpreadsheetId;
     const sheetName = paramx.name;
     const table = YKLibb.SimpleTable.createById(allApiSpreadsheetId, sheetName);
-    const [worksheet, totalRange, headerRange, dataRowsRange, nextDataRowsRange, header, totalValues] = table.getRangesAndHeaderAndTotalValues()
+    const [worksheet, totalRange, headerRange, dataRowsRange, nextDataRowsRange, header, totalValues, status] = table.getRangesAndHeaderAndTotalValues()
+
     let dataRowsValues = [[]]
-    if( dataRowsRange === null ){
+    if( dataRowsRange !== null ){
       dataRowsValues = dataRowsRange.getValues()
     }
-    return [header, dataRowsValues, totalRange, sheetName]
+    return [header, dataRowsValues, totalRange, sheetName, allApiSpreadsheetId, status]
   }
 
   webApiAndContentService(paramx, additional = ""){
@@ -305,8 +306,13 @@ class Webapi {
     const [header, dataValues, totalRange, sheetName] =  this.webApiSub(paramx)
     const keyAssocArray = this.webapikey.getAPIKey(header, dataValues, sheetName);
     const str = JSON.stringify({ "additional": additional, "api-key": keyAssocArray })
-    
-    return ContentService.createTextOutput( str ).setMimeType(ContentService.MimeType.JSON);
+    return str;
+  }
+
+  webApiX(paramx, additional = ""){
+    const [header, dataValues, totalRange, sheetName, allApiSpreadsheetId, status] =  this.webApiSub(paramx)
+    const str = JSON.stringify( { header: header, dataValues: dataValues , sheetName: sheetName, allApiSpreadsheetId: allApiSpreadsheetId, status: status } )
+    return str;
   }
 
   webApi2AndContentService(paramx){
@@ -322,7 +328,7 @@ class Webapi {
   }
 
   webApiSAndContentService(paramx){
-    const str = this.webAppS(paramx)
+    const str = this.webApiS(paramx)
     return ContentService.createTextOutput( str ).setMimeType(ContentService.MimeType.JSON);    
   }
   webApiS(paramx){
@@ -333,7 +339,7 @@ class Webapi {
   }
 
   webApiListAndContentService(){
-    const sheetNameList = this.webAppList()
+    const sheetNameList = this.webApiList()
     return ContentService.createTextOutput(JSON.stringify( sheetNameList, null, 2 )).setMimeType(ContentService.MimeType.JSON);
   }
 

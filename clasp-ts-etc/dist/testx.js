@@ -1,7 +1,44 @@
+function testz_1(){
+  const [a,b] = testz_12()
+  console.log(`a=${a} b=${b}`)
+  const [a2,b2, c2] = testz_12()
+  console.log(`a2=${a2} b2=${b2} c2=${c2}`)
+}
+function testz_12(){
+  return [10, 20, 30]
+}
 function xtest_new_gss(){
+  const field = "web_api"
   const paramx = {name: field}
   const webapi = new Webapi(ENV)
-  this.new_gss(paramx, paramx.rettype)
+  webapi.new_gss(paramx, paramx.rettype)
+}
+function xtest_webapix(){
+  const webapi = new Webapi(ENV)
+
+  const field = "web_api"
+  const paramx = {
+    cmd: field,
+    name: "OpenAI",
+    kind: "CursorCursor"
+  }
+  // webapi.execCmd(paramx)
+  const str = webapi.webApiX(paramx)
+  Logger.log(`str=${str}`)
+}
+
+function xtest_webapi(){
+  const webapi = new Webapi(ENV)
+
+  const field = "web_api"
+  const paramx = {
+    cmd: field,
+    name: "OpenAI",
+    kind: "CursorCursor"
+  }
+  // webapi.execCmd(paramx)
+  const str = webapi.webApi(paramx)
+  Logger.log(`str=${str}`)
 }
 function xtestb(){
   YKLiblog.Log.initLogDebug()
@@ -67,7 +104,7 @@ function xtestPcConfig(){
   YKLiblog.Log.initLogWarn()
 
   const webapi = new Webapi(ENV);
-  webapi.pc_config()
+  webapi.pcConfig()
 }
 
 function xtesta3(){
